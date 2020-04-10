@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.org.mapper.usermapper">
+    <select id="getuser" parameterType="java.lang.String" resultType="com.example.demo.org.model.User" >
+      select  *from user where Username=#{value}
+    </select>
+    <insert id="setuser" parameterType="com.example.demo.org.model.User">
+        insert into user value(null,#{username},#{password},"/api/earlyriseu/1.png","用户",3,"未知")
+    </insert>
+    <select id="getuserById" parameterType="int" resultType="com.example.demo.org.model.User">
+        select *from user where Uid=#{value}
+    </select>
+    <update id="updateuser" parameterType="com.example.demo.org.model.User">
+        update user set password=#{password},Uimg=#{Uimg} where Username=#{username}
+    </update>
+</mapper>

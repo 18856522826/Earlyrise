@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.org.mapper.barmapper">
+    <select id="getallBar" parameterType="java.lang.String" resultType="com.example.demo.org.model.Bar">
+   select  *from bar where Barname like '${value}%'
+ </select>
+    <insert id="barreg" parameterType="com.example.demo.org.model.Bar">
+        insert into bar values(null,#{Barname},#{Barbrief},#{Baruser},0,#{Barimg})
+    </insert>
+    <select id="getbar" parameterType="java.lang.String" resultType="com.example.demo.org.model.Bar">
+        select *from bar where Barname=#{value}
+    </select>
+</mapper>

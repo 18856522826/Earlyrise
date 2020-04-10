@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.org.mapper.postmapper">
+    <insert id="addpost" parameterType="com.example.demo.org.model.Post">
+        insert into post values(null,#{Postname},#{Postcontent},#{Uid},0,#{Bid},#{cTime},0)
+    </insert>
+    <select id="getallpost" resultType="com.example.demo.org.model.Post">
+         select *from post limit 0,#{value}
+    </select>
+    <select id="getbarpost" resultType="com.example.demo.org.model.Post">
+    select *from post where Bid=#{value}
+    </select>
+    <select id="getpostbyInput" resultType="com.example.demo.org.model.Post">
+        select * from post where Postname like '%${value}%'
+    </select>
+    <select id="getpost" resultType="com.example.demo.org.model.Post">
+        select * from post where Postid=#{value}</select>
+    <insert id="setcomment" parameterType="com.example.demo.org.model.Comment">
+        insert into pcomment values(null,#{Ccontent},#{Username},#{Postid},#{Ccount})
+    </insert>
+    <update id="upcount" parameterType="int">
+        update post set pcount=#{count} where Postid=#{id}
+    </update>
+    <select id="getcomment" resultType="com.example.demo.org.model.Comment">
+        select *from pcomment where Postid=#{value}
+    </select>
+    <insert id="setcomment_t" parameterType="com.example.demo.org.model.Comment_t">
+        insert into pcomment_t values(null,#{Comcontent},#{Comuname},#{Pcommentid},#{Postid})
+    </insert>
+    <select id="getcomment_t" resultType="com.example.demo.org.model.Comment_t">
+        select *from pcomment_t where Postid=#{value}
+    </select>
+</mapper>
