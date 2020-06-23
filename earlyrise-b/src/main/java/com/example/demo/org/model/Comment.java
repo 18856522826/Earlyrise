@@ -6,7 +6,15 @@ public class Comment {
     private int Postid;
     private String Username;
     private int Ccount;
+    private String Pctime;
 
+    public String getPctime() {
+        return Pctime;
+    }
+
+    public void setPctime(String pctime) {
+        Pctime = pctime;
+    }
 
     public int getCcount() {
         return Ccount;

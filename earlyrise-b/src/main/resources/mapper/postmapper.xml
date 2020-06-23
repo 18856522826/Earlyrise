@@ -7,10 +7,14 @@
         insert into post values(null,#{Postname},#{Postcontent},#{Uid},0,#{Bid},#{cTime},0)
     </insert>
     <select id="getallpost" resultType="com.example.demo.org.model.Post">
-         select *from post limit 0,#{value}
+         select *from post limit #{value},10
+    </select>
+    <select id="getattpost" resultType="com.example.demo.org.model.Post">
+        select * from post where Bid in(select barid from battention where uid=#{uid})
+        limit #{count},10
     </select>
     <select id="getbarpost" resultType="com.example.demo.org.model.Post">
-    select *from post where Bid=#{value}
+    select *from post where Bid=#{value}  order by Postid desc limit 0,10
     </select>
     <select id="getpostbyInput" resultType="com.example.demo.org.model.Post">
         select * from post where Postname like '%${value}%'
@@ -18,7 +22,7 @@
     <select id="getpost" resultType="com.example.demo.org.model.Post">
         select * from post where Postid=#{value}</select>
     <insert id="setcomment" parameterType="com.example.demo.org.model.Comment">
-        insert into pcomment values(null,#{Ccontent},#{Username},#{Postid},#{Ccount})
+        insert into pcomment values(null,#{Ccontent},#{Username},#{Postid},#{Ccount},#{Pctime})
     </insert>
     <update id="upcount" parameterType="int">
         update post set pcount=#{count} where Postid=#{id}
@@ -32,4 +36,24 @@
     <select id="getcomment_t" resultType="com.example.demo.org.model.Comment_t">
         select *from pcomment_t where Postid=#{value}
     </select>
+    <delete id="delpcomment" parameterType="int">
+        delete  from pcomment where Ccid=#{value}
+    </delete>
+    <delete id="delallpcomment" parameterType="int">
+        delete  from pcomment where postid=#{value}
+    </delete>
+    <delete id="delpcomment_tall" parameterType="int">
+        delete  from pcomment_t where Pcommentid=#{value}
+    </delete>
+    <delete id="delpcomment_tbyid" parameterType="int">
+        delete  from pcomment_t where Comid=#{value}
+    </delete>
+    <select id="getmypost"  resultType="com.example.demo.org.model.Post">
+        select Postid,Postname,Uid,Bid,cTime from post where Uid=#{uid}
+        order by Postid desc
+        limit #{count},10
+    </select>
+    <delete id="delpost" parameterType="int">
+        delete from post where Postid=#{value}
+    </delete>
 </mapper>

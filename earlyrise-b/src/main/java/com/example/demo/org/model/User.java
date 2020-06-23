@@ -10,15 +10,31 @@ public class User {
     private  String Uimg;
     private String nickname;
     private int bach;
+    private String school;
+    private int score;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
 
     public int getBach() {
         return bach;
     }
-
     public void setBach(int bach) {
         this.bach = bach;
     }
-
     public String getNickname() {
         return nickname;
     }

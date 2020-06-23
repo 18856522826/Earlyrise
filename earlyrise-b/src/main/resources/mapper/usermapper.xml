@@ -7,12 +7,34 @@
       select  *from user where Username=#{value}
     </select>
     <insert id="setuser" parameterType="com.example.demo.org.model.User">
-        insert into user value(null,#{username},#{password},"/api/earlyriseu/1.png","用户",3,"未知")
+        insert into user value(null,#{username},#{password},"/api/earlyriseu/1.png","用户",3,"未知",0)
     </insert>
     <select id="getuserById" parameterType="int" resultType="com.example.demo.org.model.User">
         select *from user where Uid=#{value}
     </select>
     <update id="updateuser" parameterType="com.example.demo.org.model.User">
-        update user set password=#{password},Uimg=#{Uimg} where Username=#{username}
+        update user set Uimg=#{Uimg},nickname=#{nickname},bach=#{bach},school=#{school} where Username=#{username}
     </update>
+    <select id="getadmin" resultType="com.example.demo.org.model.Admin">
+        select * from admin where Ausername= #{value}
+    </select>
+    <update id="upusersc" parameterType="int">
+    update user set score=#{count} where uid=#{uid}
+    </update>
+    <select id="getmyatt" resultType="com.example.demo.org.model.Attention">
+        select * from  attention where luser=#{value}
+    </select>
+    <select id="gettopuser" resultType="com.example.demo.org.model.User">
+        SELECT user.Uid,user.Username,user.Uimg,user.nickname FROM user left join
+        (select luser,count(*)as c from attention GROUP BY luser)as cou
+        on user.uid=cou.luser
+        order by c desc
+        limit 0,5
+    </select>
+    <select id="getalluser" resultType="com.example.demo.org.model.User" >
+        select * from user limit #{value},10
+    </select>
+    <delete id="deluserid" parameterType="int">
+        delete from user where uid=#{value}
+    </delete>
 </mapper>

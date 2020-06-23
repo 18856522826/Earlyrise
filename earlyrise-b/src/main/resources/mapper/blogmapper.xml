@@ -4,9 +4,81 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.org.mapper.blogmapper">
     <insert id="setblog"  parameterType="com.example.demo.org.model.Blog">
-insert into blog values(null,#{bname},#{bcontent},0,0,#{uid},#{btime})
+        insert into blog values(null,#{bname},#{bshort},#{bcontent},0,0,#{uid},#{btime},0)
     </insert>
- <select id="getblog" resultType="com.example.demo.org.model.Blog">
+    <insert id="setcom" parameterType="com.example.demo.org.model.Bcomment">
+        insert into bcomment values(null,#{bcontent},#{bid},#{uid},#{bctime})
+    </insert>
+   <select id="getblog" resultType="com.example.demo.org.model.Blog">
      select * from blog where bid=#{value}
- </select>
+   </select>
+    <select id="getnewblog" resultType="com.example.demo.org.model.Blog">
+        select bid,bname,bshort,bstar,uid,btime,baccess from blog order by bid desc limit #{value},10
+    </select>
+    <select id="getmaxblog" resultType="com.example.demo.org.model.Blog">
+    SELECT blog.bid,blog.bname,blog.bshort,blog.bstar,blog.uid,blog.btime,blog.baccess
+    from blog left  join (SELECT bid,count(*)as count FROM `collect` GROUP BY bid) as cc
+    on blog.bid=cc.bid
+    ORDER BY blog.bstar*100+cc.count*200+blog.baccess DESC
+    limit #{value},10
+    </select>
+    <select id="getstarblog" resultType="com.example.demo.org.model.Blog">
+     select bid,bname,bshort,bstar,uid,btime,baccess from blog where uid in(select ruser from attention where luser=#{uid})
+     order by bid desc limit #{count},10
+    </select>
+    <select id="getbcoms" resultType="com.example.demo.org.model.Bcomment">
+        select * from bcomment where bid=#{value}
+    </select>
+    <insert id="setattention" parameterType="com.example.demo.org.model.Attention">
+        insert  into attention values(null,#{luser},#{ruser})
+    </insert>
+    <select id="getattention" resultType="com.example.demo.org.model.Attention">
+        select * from  attention where luser=#{a} and ruser=#{b}
+    </select>
+    <delete id="delattention" parameterType="int">
+        delete from attention  where luser=#{a} and ruser=#{b}
+    </delete>
+    <update id="upblog" parameterType="int">
+        update blog set bstar=#{star} where bid=#{bid}
+    </update>
+    <update id="upblogacc" parameterType="int">
+        update blog set baccess=#{access} where bid=#{bid}
+    </update>
+    <insert id="setcollect"  parameterType="com.example.demo.org.model.Collect">
+        insert into  collect values(null,#{uid},#{bid});
+    </insert>
+    <delete id="delcollect" parameterType="com.example.demo.org.model.Collect">
+     delete  from collect where uid=#{uid} and bid=#{bid}
+    </delete>
+    <select id="getcollect" resultType="com.example.demo.org.model.Collect">
+        select * from collect where uid=#{uid} and bid=#{bid}
+    </select>
+    <select id="getstarlist" resultType="com.example.demo.org.model.Blog">
+        select * from blog where bid in (select bid from collect where uid=#{value})
+    </select>
+    <delete id="delblog" parameterType="int">
+        delete from blog where bid =#{value}
+    </delete>
+    <select id="getlikeblog" resultType="com.example.demo.org.model.Blog">
+        select * from blog where bname like '%${like}%'
+        limit #{count},10
+    </select>
+    <update id="updateblog" parameterType="com.example.demo.org.model.Blog">
+        update blog set bname=#{bname},bstar=#{bstar},baccess=#{baccess},bshort=#{bshort}
+        where bid=#{bid}
+    </update>
+    <select id="getmyblog" resultType="com.example.demo.org.model.Blog">
+        select  bid,bname,bshort,bstar,uid,btime,baccess from blog where uid=#{uid}
+        order by bid desc
+        limit #{count},10
+    </select>
+    <insert id="setdraft" parameterType="com.example.demo.org.model.draft">
+        insert into draft values(null,#{dratit},#{drashort},#{dracontent},#{drauid})
+    </insert>
+    <select id="getnewdra" resultType="com.example.demo.org.model.draft" >
+        select * from draft where drauid=#{value} order by draid desc
+    </select>
+    <delete id="deldra" parameterType="int">
+        delete from draft where draid=#{value}
+    </delete>
 </mapper>

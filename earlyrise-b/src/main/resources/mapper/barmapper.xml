@@ -12,4 +12,22 @@
     <select id="getbar" parameterType="java.lang.String" resultType="com.example.demo.org.model.Bar">
         select *from bar where Barname=#{value}
     </select>
+    <select id="getbarbyid" resultType="com.example.demo.org.model.Bar">
+        select * from bar where Barid=#{value}
+    </select>
+    <insert id="setbattention" parameterType="com.example.demo.org.model.Battention">
+        insert into battention values(null,#{uid},#{barid})
+    </insert>
+    <delete id="delbattention" parameterType="com.example.demo.org.model.Battention">
+        delete from battention where uid=#{uid} and barid=#{barid}
+    </delete>
+    <select id="getbattention" resultType="com.example.demo.org.model.Battention">
+        select * from battention where uid=#{uid} and barid=#{barid}
+    </select>
+    <select id="getabar" resultType="com.example.demo.org.model.Bar">
+        select * from bar order by barid desc limit #{value},10
+    </select>
+    <delete id="delbarid" parameterType="int">
+        delete from bar where Barid=#{value}
+    </delete>
 </mapper>

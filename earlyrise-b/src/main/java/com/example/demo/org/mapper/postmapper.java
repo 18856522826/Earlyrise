@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public interface postmapper {
     public void addpost(Post p);
     public ArrayList<Post> getallpost(int a);
+    public ArrayList<Post> getattpost(@Param("uid") int a,@Param("count") int b);
     public ArrayList<Post> getbarpost(int a);
     public ArrayList<Post> getpostbyInput(String input);
     public Post getpost (int a);
@@ -20,4 +21,11 @@ public interface postmapper {
     public ArrayList<Comment> getcomment(int a);
     public void setcomment_t(Comment_t c);
     public ArrayList<Comment_t> getcomment_t(int a);
+    public void delpcomment(int a);
+    public void delallpcomment(int a);
+    public void delpcomment_tall(int a);
+    public void delpcomment_tbyid(int a);
+    public ArrayList getmypost(@Param("uid")int a,@Param("count")int count);
+    public void delpost(int a);
+
 }

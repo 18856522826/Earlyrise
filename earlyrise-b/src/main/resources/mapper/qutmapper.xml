@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.org.mapper.qutmapper">
+    <insert id="setquestion" parameterType="com.example.demo.org.model.Question">
+      insert into question  values (null,#{qname},#{qsample},#{qcontent},#{qtype},#{uid},0,0,#{score},0,#{qtime});
+    </insert>
+    <select id="getnewqut" resultType="com.example.demo.org.model.Question">
+    select  * from question order by qid desc limit #{value},10
+    </select>
+    <select id="getquestion" resultType="com.example.demo.org.model.Question">
+        select * from question where qid=#{value}
+    </select>
+    <update id="upqutgood" parameterType="int">
+        update question set qstar=#{count} where qid=#{id}
+    </update>
+    <insert id="setqcollect" parameterType="com.example.demo.org.model.Qcollect">
+        insert into qcollect  values (null,#{uid},#{qid})
+    </insert>
+    <select id="getqcollect" resultType="com.example.demo.org.model.Qcollect">
+        select  * from qcollect where uid=#{uid} and qid=#{qid}
+    </select>
+    <delete id="delqcollect" parameterType="com.example.demo.org.model.Qcollect">
+        delete from qcollect where uid=#{uid} and qid=#{qid}
+    </delete>
+    <select id="getstarqut" resultType="com.example.demo.org.model.Question">
+    select * from question where uid in (select ruser from attention where luser=#{uid})
+    order by qid desc limit #{count},10
+    </select>
+    <select id="getmaxqut" resultType="com.example.demo.org.model.Question">
+    SELECT q.qid,q.qname,q.qsample,q.qcontent,q.qtype,q.uid,q.qstar,q.qaccess,q.score,q.bool,q.qtime FROM question as q LEFT JOIN
+    (select qid,count(*)AS z from qcollect GROUP BY qid)AS qc
+    ON q.qid=qc.qid
+    ORDER BY (qc.z*200)+(q.qstar*100)+q.qaccess DESC
+    LIMIT #{value},10
+    </select>
+    <update id="upqutacc" parameterType="int">
+        update question set qaccess=#{access} where qid=#{qid}
+    </update>
+    <insert id="setqcomment" parameterType="com.example.demo.org.model.Qcomment">
+        insert into qcomment values(null,#{qcontent},#{uid},#{qid},#{qtime},0)
+    </insert>
+    <select id="getqcomment" resultType="com.example.demo.org.model.Qcomment">
+        select * from qcomment where qid=#{value}
+    </select>
+    <update id="setqcomsign" parameterType="int">
+        update qcomment set ifsign=1 where qcomid=#{value}
+     </update>
+    <update id="setquessign" parameterType="int">
+        update question set bool=1 where qid=#{value}
+     </update>
+    <select id="getmyqut" resultType="com.example.demo.org.model.Question">
+        select qid,qname,qsample,qtype,uid,bool,qtime from question
+        where uid=#{uid} order by uid desc
+        limit #{count},10
+    </select>
+    <select id="delqut" parameterType="int">
+        delete from question where qid=#{value}
+    </select>
+    <select id="gettit" resultType="com.example.demo.org.model.Question">
+        SELECT * from question where qname like '%${value}%'
+    </select>
+    <update id="upqut" parameterType="com.example.demo.org.model.Question">
+        update question set qname=#{qname},qsample=#{qsample},qstar=#{qstar},qaccess=#{qaccess},
+        score=#{score} where qid=#{qid}
+    </update>
+</mapper>

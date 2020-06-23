@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,35 +18,21 @@ import java.util.Date;
 
 @Service
 public class postservice {
-    @Autowired
+    @Resource
     private com.example.demo.org.mapper.postmapper postmapper;
     @Autowired
     private RedisTemplate<Object,Object> template;
     @Autowired
     private userservice userservice;
     public int addpost(Post p){
-//        JSONObject jsonParam=(JSONObject)template.opsForList().rightPop("posts");
-//        Calendar t = Calendar.getInstance();
-//        Date date = t.getTime();
-//        SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-MM-dd HH:mm");
-//        String a = sdf.format(date);
-//        String pname = jsonParam.getAsString("pname");
-//        String content = jsonParam.getAsString("content");
-//        String username = jsonParam.getAsString("username");
-//        int barid = (int) jsonParam.getAsNumber("barid");
-//        Post p = new Post();
-//        p.setPostname(pname);
-//        p.setPostcontent(content);
-//        User u = userservice.getuser(username);
-//        p.setUid(u.getUid());
-//        p.setBid(barid);
-//        p.setcTime(a);
-       // Post p=new Post();
         postmapper.addpost(p);
             return 1;
     }
     public ArrayList<Post> getallpost(int a){
         return postmapper.getallpost(a);
+    }
+    public ArrayList<Post> getattpost(int a,int b){
+        return postmapper.getattpost(a,b);
     }
     public ArrayList<Post> getbarpost(int a){
         return postmapper.getbarpost(a);
@@ -71,5 +58,23 @@ public class postservice {
     }
     public ArrayList<Comment_t> getcomment_t(int  a){
        return postmapper.getcomment_t(a);
+    }
+    public void delpcomment(int a){
+        postmapper.delpcomment(a);
+    }
+    public void delallpcomment( int a){
+        postmapper.delallpcomment(a);
+    }
+    public void delpcomment_tall(int a){
+        postmapper.delpcomment_tall(a);
+    }
+    public void delpcomment_tbyid(int a){
+        postmapper.delpcomment_tbyid(a);
+    }
+    public ArrayList getmypost(int a,int b){
+        return postmapper.getmypost(a,b);
+    }
+    public void delpost(int a){
+        postmapper.delpost(a);
     }
 }
