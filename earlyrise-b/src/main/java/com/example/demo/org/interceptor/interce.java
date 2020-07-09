@@ -15,7 +15,6 @@ public class interce implements HandlerInterceptor {
         System.out.println("开始拦截");
         return true;
     }
-
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
